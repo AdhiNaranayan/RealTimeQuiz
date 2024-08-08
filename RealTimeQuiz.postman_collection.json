@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "8eb7b154-ed4e-416d-a4b9-790abf4ad5da",
+		"name": "RealTimeQuiz",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37029412"
+	},
+	"item": [
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "RoomList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/rooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateRoom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"roomName\": \"Quiz Room 1\",\r\n  \"username\": \"Player1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rooms/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JoinRoom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"roomId\": \"66b4f5fa3e04573800a900f6\", // Replace with an actual Room ID\r\n  \"username\": \"Player2\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rooms/join",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms",
+								"join"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteRoom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/rooms/66b4fc904a79fac7d0abb5e2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms",
+								"66b4fc904a79fac7d0abb5e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GameStart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"questions\": [\r\n    { \"question\": \"What is the capital of France?\", \"options\": [\"Paris\", \"London\", \"Berlin\"], \"answer\": \"Paris\" },\r\n    { \"question\": \"What is 2 + 2?\", \"options\": [\"3\", \"4\", \"5\"], \"answer\": \"4\" }\r\n    // Add more questions as needed\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rooms/66b4f5fa3e04573800a900f6/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms",
+								"66b4f5fa3e04573800a900f6",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AnswertheQuestions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"66b4f4a435cb9635c92192ed\",\r\n  \"questionIndex\": 0,\r\n  \"answer\": \"Paris\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rooms/66b4f5fa3e04573800a900f6/submitAnswer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms",
+								"66b4f5fa3e04573800a900f6",
+								"submitAnswer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TheEnd",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"finalScores\": {\r\n    \"userId1\": 30,\r\n    \"userId2\": 20\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rooms/66b4f5fa3e04573800a900f6/end",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rooms",
+								"66b4f5fa3e04573800a900f6",
+								"end"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
