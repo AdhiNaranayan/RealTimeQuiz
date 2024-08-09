@@ -3,6 +3,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const roomRoutes = require('./routes/roomRoutes');
 const gameRoutes = require('./routes/gameRoutes');
+const UserRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -12,5 +13,6 @@ connectDB();
 
 app.use('/api/rooms', roomRoutes);
 app.use('/api/game', gameRoutes);
+app.use('/api/user', UserRoutes);
 
 module.exports = app;

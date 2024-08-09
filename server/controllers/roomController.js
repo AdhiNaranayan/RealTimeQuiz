@@ -1,23 +1,29 @@
 const Room = require('../models/Room');
-const User = require('../models/Users'); 
+const User = require('../models/Users');
 
 const createRoom = async (req, res) => {
-  const { roomName, username } = req.body;
+  const { roomName, userId } = req.body;
 
-  if (!roomName || !username) {
-    return res.status(400).json({ message: 'Room name and username are required' });
+  if (!roomName || roomName === null) {
+    return res.status(400).json({ message: 'Room name is required' });
+  }
+  if (!userId || userId === null) {
+    return res.status(400).json({ message: 'UserId is required' });
   }
 
   try {
-    const user = await User.create({ username });
-    const room = await Room.create({
-      name: roomName,
-      users: [user._id],
-      ActiveStatus:true,
-      IfDeleted:false
-    });
-
-    res.status(201).json({ room });
+    const user = await User.findOne({ _id: userId });
+    if (user) {
+      const room = await Room.create({
+        name: roomName,
+        users: [user._id],
+        ActiveStatus: true,
+        IfDeleted: false
+      });
+      res.status(201).json({ message: `${user.username} create a Room Successfully`, room });
+    } else if (!user) {
+      res.status(400).json({ message: "No users found! Please Provide a valid UserId!" });
+    }
   } catch (err) {
     console.log(err)
     res.status(500).json({ message: 'Error creating room', error: err.message });
@@ -25,28 +31,33 @@ const createRoom = async (req, res) => {
 };
 
 const joinRoom = async (req, res) => {
-  const { roomId, username } = req.body;
+  const { roomId, userId } = req.body;
 
-  if (!roomId || !username) {
-    return res.status(400).json({ message: 'Room ID and username are required' });
+  if (!roomId || roomId === null) {
+    return res.status(400).json({ message: 'Room ID is required' });
   }
-
+  if (!userId || userId === null) {
+    return res.status(400).json({ message: 'UserId is required' });
+  }
   try {
     const room = await Room.findById(roomId);
-    
+
     if (!room) {
       return res.status(404).json({ message: 'Room not found' });
     }
-    
+
     if (room.users.length >= 2) {
       return res.status(400).json({ message: 'Room is full' });
     }
-    
-    const user = await User.create({ username });
-    room.users.push(user._id);
-    await room.save();
 
-    res.status(200).json({ room });
+    const user = await User.findOne({ _id: userId });
+    if (user) {
+      room.users.push(user._id);
+      await room.save();
+      res.status(200).json({ message: `${user.username} joined the Room Successfully`, room });
+    } else if (!user) {
+      res.status(400).json({ message: "No users found! Please Provide a valid UserId!" });
+    }
   } catch (err) {
     res.status(500).json({ message: 'Error joining room', error: err.message });
   }
@@ -54,8 +65,8 @@ const joinRoom = async (req, res) => {
 
 const getRooms = async (req, res) => {
   try {
-    const rooms = await Room.find({ActiveStatus:true,IfDeleted:false}).populate('users', 'username');
-    res.status(200).json({ rooms , TotalRooms:rooms.length});
+    const rooms = await Room.find({ ActiveStatus: true, IfDeleted: false }).populate('users', 'username');
+    res.status(200).json({ rooms, TotalRooms: rooms.length });
   } catch (err) {
     res.status(500).json({ message: 'Error fetching rooms', error: err.message });
   }
@@ -96,7 +107,7 @@ const startGame = async (req, res) => {
 
 
 const submitAnswer = async (req, res) => {
-  
+
   const { roomId } = req.params;
   const { userId, questionIndex, answer } = req.body;
 
@@ -120,7 +131,7 @@ const submitAnswer = async (req, res) => {
       userAnswer = { userId, answers: [] };
       room.userAnswers.push(userAnswer);
     }
-    
+
     userAnswer.answers.push({ questionIndex, answer, isCorrect });
     await room.save();
 
@@ -179,9 +190,9 @@ const deleteRoom = async (req, res) => {
     if (!room) {
       return res.status(404).json({ message: 'Room not found' });
     }
-   
+
     room.ActiveStatus = false,
-    room.IfDeleted = true
+      room.IfDeleted = true
     await room.save();
 
     // Optionally notify clients if the room is deleted

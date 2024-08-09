@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8eb7b154-ed4e-416d-a4b9-790abf4ad5da",
+		"_postman_id": "14614d14-e9f2-4c1e-97e5-54950c6375c3",
 		"name": "RealTimeQuiz",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37029412"
+		"_exporter_id": "36207358"
 	},
 	"item": [
 		{
@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"roomName\": \"Quiz Room 1\",\r\n  \"username\": \"Player1\"\r\n}\r\n",
+							"raw": "{\r\n  \"roomName\": \"Quiz Room 1\",\r\n  \"userId\": \"66b5b4c20feadb413ca93b43\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,7 +66,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"roomId\": \"66b4f5fa3e04573800a900f6\", // Replace with an actual Room ID\r\n  \"username\": \"Player2\"\r\n}\r\n",
+							"raw": "{\r\n  \"roomId\": \"66b5ba93c447ba8ab7c062ea\", // Replace with an actual Room ID\r\n  \"userId\": \"66b5b55928499c57c43751d7\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -198,6 +198,41 @@
 								"rooms",
 								"66b4f5fa3e04573800a900f6",
 								"end"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "UserCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Player 3\",\r\n    \"email\": \"player3@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/usercreate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"usercreate"
 							]
 						}
 					},
